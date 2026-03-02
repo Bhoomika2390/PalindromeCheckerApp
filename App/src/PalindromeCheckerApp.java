@@ -22,7 +22,7 @@
  * @version 2.0
  */
 
-public class UseCase2PalindromeCheckerApp {
+public class PalindromeCheckerApp {
 
     /**
      * Application entry point for UC2.
@@ -41,7 +41,7 @@ public class UseCase2PalindromeCheckerApp {
             }
         }
 
-        System.out.println("Input text: " + input);
+        System.out.println("Input text : " + input);
         System.out.println("Is it a palindrome? " + isPalindrome);
     }
 }
