@@ -1,29 +1,75 @@
-// UC7 - Deque Based Optimized Palindrome Checker
-
-import java.util.Deque;
-import java.util.ArrayDeque;
+// UC8 - Linked List Based Palindrome Checker
 
 public class PalindromeCheckerApp {
 
+    // Node class
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    // Reverse linked list
+    static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
+    }
+
     public static void main(String[] args) {
 
-        String input = "refer";
+        String input = "level";
 
-        Deque<Character> deque = new ArrayDeque<>();
+        // Step 1: Convert string to linked list
+        Node head = null;
+        Node tail = null;
 
-        // Insert characters into deque
         for (char c : input.toCharArray()) {
-            deque.addLast(c);
+            Node newNode = new Node(c);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
         }
 
+        // Step 2: Find middle using slow & fast pointer
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 3: Reverse second half
+        Node secondHalf = reverse(slow);
+
+        // Step 4: Compare halves
+        Node firstHalf = head;
         boolean isPalindrome = true;
 
-        // Compare front and rear
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast()) {
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
                 isPalindrome = false;
                 break;
             }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
         }
 
         System.out.println("Input : " + input);
