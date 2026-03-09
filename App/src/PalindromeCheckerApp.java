@@ -1,19 +1,17 @@
-// UC12 - Strategy Pattern for Palindrome Algorithms
+// UC13 - Performance Comparison of Palindrome Algorithms
 
 import java.util.Stack;
-import java.util.Deque;
-import java.util.ArrayDeque;
 
-// Strategy Interface
-interface PalindromeStrategy {
-    boolean check(String input);
-}
+public class PalindromeCheckerApp {
 
-// Stack Strategy
-class StackStrategy implements PalindromeStrategy {
+    // Method 1: Reverse String
+    public static boolean reverseCheck(String input) {
+        String reversed = new StringBuilder(input).reverse().toString();
+        return input.equals(reversed);
+    }
 
-    public boolean check(String input) {
-
+    // Method 2: Stack Method
+    public static boolean stackCheck(String input) {
         Stack<Character> stack = new Stack<>();
 
         for (char c : input.toCharArray()) {
@@ -28,44 +26,28 @@ class StackStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
-
-// Deque Strategy
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
-
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-
-// Main App
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String input = "level";
+        String input = "racecar";
 
-        // Choose strategy dynamically
-        PalindromeStrategy strategy = new StackStrategy();
-        // You can switch to:
-        // PalindromeStrategy strategy = new DequeStrategy();
+        // Reverse Method timing
+        long start1 = System.nanoTime();
+        boolean result1 = reverseCheck(input);
+        long end1 = System.nanoTime();
 
-        boolean result = strategy.check(input);
+        // Stack Method timing
+        long start2 = System.nanoTime();
+        boolean result2 = stackCheck(input);
+        long end2 = System.nanoTime();
 
         System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + result);
+        System.out.println("Reverse Method Result : " + result1);
+        System.out.println("Reverse Method Time : " + (end1 - start1) + " ns");
+
+        System.out.println();
+
+        System.out.println("Stack Method Result : " + result2);
+        System.out.println("Stack Method Time : " + (end2 - start2) + " ns");
     }
 }
